@@ -14,8 +14,6 @@
     (test-assert
      (not (eof-object? (read-line))))))
 
-(test-equal 2 (* 1 1))
-
 (test-end "01-simple")
 
 (let ((runner (test-runner-current)))
