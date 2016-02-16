@@ -20,3 +20,30 @@
 (define*-public (cat #:rest filenames)
   "specified file is concatenated and displayed"
   (for-each *cat filenames))
+
+(define (*rm-f filename)
+  ""
+  (when (file-exists? filename)
+        (delete-file filename)))
+
+(define-public (rm-f filenames)
+  "delete file or directory"
+  (if (list? filenames)
+      (for-each *rm-f filenames)
+      ;; else
+      (*rm-f filenames)))
+
+(define (*rm-rf path)
+  ""
+  (if (file-is-directory? path)
+      (rmdir path)
+      ;; else
+      (*rm-f path)))
+
+(define-public (rm-rf filenames)
+  (map (lambda (filename)
+         (if (file-is-directory? filename)
+             (map *rm-rf (file-find filename))
+             ;; else
+             (*rm-f filename)))
+       filenames))
